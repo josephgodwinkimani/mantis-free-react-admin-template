@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { useEffect, useState, lazy } from 'react';
+import { Switch as Routes, Route, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
@@ -14,6 +14,21 @@ import Breadcrumbs from 'components/@extended/Breadcrumbs';
 
 // types
 import { openDrawer } from 'store/reducers/menu';
+
+// project import
+import Loadable from 'components/Loadable';
+
+// render - dashboard
+const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
+
+// render - sample page
+const SamplePage = Loadable(lazy(() => import('pages/extra-pages/SamplePage')));
+
+// render - utilities
+const Typography = Loadable(lazy(() => import('pages/components-overview/Typography')));
+const Color = Loadable(lazy(() => import('pages/components-overview/Color')));
+const Shadow = Loadable(lazy(() => import('pages/components-overview/Shadow')));
+const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons')));
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
@@ -51,7 +66,14 @@ const MainLayout = () => {
             <Box component="main" sx={{ width: '100%', flexGrow: 1, p: { xs: 2, sm: 3 } }}>
                 <Toolbar />
                 <Breadcrumbs navigation={navigation} title titleBottom card={false} divider={false} />
-                <Outlet />
+                <Routes>
+                    <Route path="/dashboard/default">{<DashboardDefault />} </Route>
+                    <Route path="/typography">{<Typography />} </Route>
+                    <Route path="/color">{<Color />}</Route>
+                    <Route path="/shadow">{<Shadow />}</Route>
+                    <Route path="/sample-page">{<SamplePage />}</Route>
+                    <Route path="/icons/ant">{<AntIcons />}</Route>
+                </Routes>
             </Box>
         </Box>
     );
